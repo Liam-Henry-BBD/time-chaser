@@ -61,9 +61,8 @@ const MainScene = () => {
       ground.position.z = 500;
 
       // Controls
-      setupControls(player, state,playAnimation);
+      setupControls(player, state, playAnimation);
       setupSwipeControls(player, state, playAnimation);
-
 
       // Game loop
       scene.onBeforeRenderObservable.add(() => {
@@ -94,7 +93,7 @@ const MainScene = () => {
           setTimeout(() => {
             console.log("Trying to switch to Knock_out...");
             if (animationsRef.current) {
-              animationsRef.current("rig|Fall",false);
+              animationsRef.current("rig|Fall", false);
             }
           }, 500);
         }
@@ -144,10 +143,21 @@ const MainScene = () => {
   };
 
   return (
-    <div>
-      {!gameStarted && !gameOver && <StartScreen onStart={startGame} />}
-      {gameOver && <GameOverScreen score={score} onRestart={restartGame} />}
+    <div
+      style={{
+        position: "relative",
+        width: "100vw",
+        height: "100vh",
+        overflow: "hidden",
+      }}
+    >
+      {/* Canvas behind */}
       <GameCanvas onSceneReady={onSceneReady} />
+
+      {/* UI on top */}
+      {!gameStarted && !gameOver && <StartScreen onStart={startGame} />}
+
+      {gameOver && <GameOverScreen score={score} onRestart={restartGame} />}
     </div>
   );
 };
