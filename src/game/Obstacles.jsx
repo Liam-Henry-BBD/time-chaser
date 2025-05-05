@@ -12,64 +12,65 @@ const laneOffset = 2;
 
 export async function createObstacle(scene, zPos) {
   const isSmall = Math.random() < 0.4; // 40% chance of being a small obstacle
+  const isBiggest = Math.random() < 0.4; // 40% chance of being a small obstacle
   const lane = Math.floor(Math.random() * 3) - 1;
   const xPos = lane * laneOffset;
 
-  if (isSmall) {
-    // 🔷 Small box obstacle
-    const height = 1;
-    const yPos = 0.5;
+  // if (isSmall) {
+  // 🔷 Small box obstacle
+  const height = isSmall ? (isBiggest ? 3 : 1) : 2;
+  const yPos = 0.5;
 
-    const obstacle = MeshBuilder.CreateBox(
-      "obstacle",
-      {
-        width: 1,
-        height,
-        depth: 1,
-      },
-      scene
-    );
+  const obstacle = MeshBuilder.CreateBox(
+    "obstacle",
+    {
+      width: 1,
+      height,
+      depth: 1,
+    },
+    scene
+  );
 
-    const mat = new StandardMaterial("obstacleMat", scene);
-    mat.diffuseColor = new Color3(0, 0.5, 1); // Blue for small
-    obstacle.material = mat;
+  const mat = new StandardMaterial("obstacleMat", scene);
+  mat.diffuseColor = new Color3(0, 0.5, 1); // Blue for small
+  obstacle.material = mat;
 
-    obstacle.position = new Vector3(xPos, yPos, zPos);
-    obstacle.metadata = { isSmall: true };
+  obstacle.position = new Vector3(xPos, yPos, zPos);
+  obstacle.metadata = { isSmall: true };
 
-    obstacles.push(obstacle);
-  } else {
-    // 🔶 Tall barrel obstacle with collider
-    const result = await SceneLoader.ImportMeshAsync(
-      "",
-      "models/",
-      "barrel.glb",
-      scene
-    );
-    const visualMesh = result.meshes.find((m) => m.name !== "__root__");
+  obstacles.push(obstacle);
+  // } else {
+  //   // 🔶 Tall barrel obstacle with collider
+  //   const result = await SceneLoader.ImportMeshAsync(
+  //     "",
+  //     "models/",
+  //     "barrel.glb",
+  //     scene
+  //   );
+  //   const visualMesh = result.meshes.find((m) => m.name !== "__root__");
 
-    // Create invisible hitbox (collider)
-    const collider = MeshBuilder.CreateBox(
-      "obstacleCollider",
-      {
-        width: 1,
-        height: 2,
-        depth: 1,
-      },
-      scene
-    );
-    collider.isVisible = false;
-    collider.position = new Vector3(xPos, 1, zPos);
-    collider.metadata = { isSmall: false };
+  //   // Create invisible hitbox (collider)
+  //   const collider = MeshBuilder.CreateBox(
+  //     "obstacleCollider",
+  //     {
+  //       width: 1,
+  //       height: 2,
+  //       depth: 1,
+  //     },
+  //     scene
+  //   );
+  //   collider.isVisible = false;
+  //   collider.position = new Vector3(xPos, 1, zPos);
+  //   collider.metadata = { isSmall: false };
 
-    // Attach visual to collider
-    visualMesh.parent = collider;
-    visualMesh.scaling = new Vector3(0.06, 0.1, 0.1); // Adjust to match collider
-    visualMesh.position = new Vector3(0.55, 1, 0); // Align visually on top of collider
-    visualMesh.rotation = new Vector3(Math.PI / 2, 0, 0); // Rotate 90° around Y
+  //   // Attach visual to collider
+  //   visualMesh.parent = collider;
+  //   visualMesh.scaling = new Vector3(0.06, 0.1, 0.1); // Adjust to match collider
+  //   visualMesh.position = new Vector3(0.55, 1, 0); // Align visually on top of collider
+  //   visualMesh.rotation = new Vector3(Math.PI / 2, 0, 0); // Rotate 90° around Y
 
-    obstacles.push(collider);
-  }
+  //   obstacles.push(collider);
+  // }
 }
 
 export const clearObstacles = (obstacles) => {

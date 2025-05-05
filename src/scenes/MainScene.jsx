@@ -71,15 +71,15 @@ const MainScene = () => {
         if (state.gameOver) return;
 
         // Player moves forward
-        player.parent.position.z += 1;
+        player.parent.position.z += .75;
         updateCamera(cameraRef.current, player);
 
         // Obstacle spawning
         const now = performance.now();
         if (!scene._lastObstacleTime) scene._lastObstacleTime = now;
 
-        if (now - scene._lastObstacleTime > 1500) {
-          createObstacle(scene, player.parent.position.z + 40);
+        if (now - scene._lastObstacleTime > 1300) {
+          createObstacle(scene, player.parent.position.z + 60);
           scene._lastObstacleTime = now;
         }
 
