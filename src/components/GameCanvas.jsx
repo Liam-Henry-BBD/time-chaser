@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
-import { Engine, Scene } from '@babylonjs/core';
+import { useEffect, useRef } from "react";
+import { Engine, Scene } from "@babylonjs/core";
 
 const GameCanvas = ({ onSceneReady }) => {
   const canvasRef = useRef(null);
@@ -25,7 +25,7 @@ const GameCanvas = ({ onSceneReady }) => {
       });
     });
 
-    window.addEventListener('resize', () => {
+    window.addEventListener("resize", () => {
       engine.resize();
     });
 
@@ -35,7 +35,19 @@ const GameCanvas = ({ onSceneReady }) => {
     };
   }, [onSceneReady]);
 
-  return <canvas ref={canvasRef} style={{ width: '100%', height: '100%' }} />;
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{
+        width: "100vw",
+        height: "100vh",
+        display: "block",
+        position: "absolute",
+        top: 0,
+        left: 0,
+      }}
+    />
+  );
 };
 
 export default GameCanvas;
