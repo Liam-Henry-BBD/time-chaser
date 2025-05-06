@@ -13,6 +13,7 @@ import { createObstacle, updateObstacles } from "../game/Obstacles";
 import { createCamera, updateCamera } from "../game/CameraFollow";
 import StartScreen from "./StartScreen";
 import GameOverScreen from "./GameOverScreen";
+import "./score.css";
 
 const MainScene = () => {
   const [gameOver, setGameOver] = useState(false);
@@ -149,14 +150,17 @@ const MainScene = () => {
         width: "100vw",
         height: "100vh",
         overflow: "hidden",
+        color: "black",
       }}
     >
       {/* Canvas behind */}
       <GameCanvas onSceneReady={onSceneReady} />
 
-      {/* UI on top */}
-      {!gameStarted && !gameOver && <StartScreen onStart={startGame} />}
+      <p className="score">Your Score: {score}</p>
 
+      {/* UI on top */}
+      <p>game</p>
+      {!gameStarted && !gameOver && <StartScreen onStart={startGame} />}
       {gameOver && <GameOverScreen score={score} onRestart={restartGame} />}
     </div>
   );
